@@ -4,3 +4,5 @@ src/index.js
 src/types.js
 pnpm-lock.yaml
 .DS_Store
+
+package-lock.json

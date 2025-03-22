@@ -1,7 +1,7 @@
 {
-  "name": "create-mf-app",
-  "version": "2.0.2",
-  "description": "Create Module Federation apps",
+  "name": "@coconut-packages/create-mf-app",
+  "version": "0.0.2",
+  "description": "Coconut create coconut plugins",
   "main": "src/index.js",
   "bin": "bin/create-mf-app.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest watch"
   },
-  "author": "Jack Herrington",
+  "author": "Naman Khater",
   "license": "MIT",
   "dependencies": {
     "@clack/prompts": "^0.9.1",
