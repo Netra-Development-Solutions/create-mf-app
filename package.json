@@ -1,6 +1,6 @@
 {
   "name": "@coconut-packages/create-mf-app",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "Coconut create coconut plugins",
   "main": "src/index.js",
   "bin": "bin/create-mf-app.js",
