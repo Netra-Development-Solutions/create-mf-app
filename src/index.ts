@@ -5,8 +5,7 @@ import ejs from "ejs";
 
 export type Project = {
   framework?: string;
-  css?: "CSS" | "Tailwind";
-  withZephyr: boolean;
+  css?: "CSS" ;
   port?: number;
   name: string;
   type: "Application" | "Library" | "API";
@@ -17,8 +16,7 @@ type Profiler = {
   FRAMEWORK: string | undefined;
   SAFE_NAME: string;
   PORT?: number;
-  CSS?: "Tailwind" | "Empty CSS";
-  WITH_ZEPHYR: boolean;
+  CSS?: "Empty CSS";
   CONTAINER?: string;
 };
 
@@ -57,15 +55,13 @@ const buildProfiler = ({
   type,
   framework,
   name,
-  css,
   port,
-  withZephyr,
 }: Project) => {
   const profiler: Profiler = {
     NAME: name,
     FRAMEWORK: framework,
+    CSS: "Empty CSS",
     SAFE_NAME: name.replace(/-/g, "_").trim(),
-    WITH_ZEPHYR: withZephyr,
   };
 
   if (type === "API" || type === "Application") {
@@ -73,11 +69,7 @@ const buildProfiler = ({
   }
 
   if (type === "Application") {
-    const isTailwind = css === "Tailwind";
-    profiler.CONTAINER = isTailwind
-      ? "mt-10 text-3xl mx-auto max-w-6xl"
-      : "container";
-    profiler.CSS = isTailwind ? "Tailwind" : "Empty CSS";
+    profiler.CSS = "Empty CSS";
   }
   return profiler;
 };
@@ -107,7 +99,7 @@ const copyDirSync = (sourceDir: string, targetDir: string) => {
 };
 
 export const buildProject = async (project: Project) => {
-  const { name, framework, type, withZephyr } = project;
+  const { name, framework, type } = project;
   const tempDir = type.toLowerCase();
   const profiler = buildProfiler(project);
 
@@ -121,18 +113,6 @@ export const buildProject = async (project: Project) => {
     const packageJSON = JSON.parse(pkg);
     packageJSON.devDependencies = packageJSON.devDependencies || {};
 
-    if (project.css === "Tailwind") {
-      await copyDirSync(
-        path.join(__dirname, "../templates/application-extras/tailwind"),
-        name
-      );
-      packageJSON.devDependencies["@tailwindcss/postcss"] = "^4.0.3";
-      packageJSON.devDependencies["tailwindcss"] = "^4.0.3";
-    }
-
-    if (withZephyr) {
-      packageJSON.dependencies["zephyr-rspack-plugin"] = "^0.0.32";
-    }
 
     await fs.writeFileSync(
       path.join(name, "package.json"),

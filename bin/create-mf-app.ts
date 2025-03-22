@@ -44,11 +44,6 @@ program
     `The template to use (${templates.map((t) => t.framework).join(", ")})`
   )
   .option("-p, --port <number>", "The port to use")
-  .option("-c, --css <css>", "The CSS framework to use (CSS or Tailwind)")
-  .option(
-    "-z, --withZephyr <yes or no>",
-    "Add deploy withZephyr, sub second deployments on build"
-  )
   .option("-h, --help", "Help");
 
 program.parse();
@@ -82,8 +77,7 @@ function checkCancel(value: string | symbol) {
 
   const answers: Project = {
     name: "",
-    type: "Application",
-    withZephyr: false,
+    type: "Application"
   };
 
   if (options.name) {
@@ -140,36 +134,7 @@ function checkCancel(value: string | symbol) {
     }
 
     if (answers.type === "Application") {
-      if (options.css) {
-        answers.css = options.css;
-      } else {
-        answers.css = (await select({
-          message: "CSS?",
-          options: [
-            { value: "CSS", label: "CSS" },
-            { value: "Tailwind", label: "Tailwind" },
-          ],
-          initialValue: "Tailwind",
-        })) as "CSS" | "Tailwind";
-        checkCancel(answers.css);
-      }
-      if (options.withZephyr) {
-        answers.withZephyr = options.withZephyr === "yes";
-      } else {
-        if (
-          answers.framework === "react-19" ||
-          answers.framework === "react-18"
-        ) {
-          answers.withZephyr = (await select({
-            message: "Add deploy withZephyr?",
-            options: [
-              { value: true, label: "Yes" },
-              { value: false, label: "No" },
-            ],
-            initialValue: true,
-          })) as boolean;
-        }
-      }
+      answers.css = "CSS";
     }
   }
 
