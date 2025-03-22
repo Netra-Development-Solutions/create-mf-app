@@ -11,7 +11,7 @@
   "license": "MIT",
   "author": {
     "name": "Naman Khater",
-    "email": "naman22khater.@gmail.com"
+    "email": "naman22khater@gmail.com"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
